@@ -32,7 +32,7 @@ public interface PoemRepository {
     // AdminTable operation
 
     //
-    void insertA(String tableName);
+    int insertA(String tableName);
 
     //
     void deleteA(int tableId);
@@ -59,6 +59,9 @@ public interface PoemRepository {
     List<PoemObject> findByIdW(int tableId);
 
     //
+    Optional<PoemObject> findContentByContentIdW(String contentId);
+
+    //
     void updateAnyW(PoemObject newObject);
 
 
@@ -79,7 +82,7 @@ public interface PoemRepository {
     void deleteByContentIdF(int tableId, String contentId);
 
     //
-    void eraseF(int tableId, String createdDate);
+    void eraseF(int tableId, String date);
 
     // 
     List<PoemObject> findByContentIdF(int tableId, String contentId);

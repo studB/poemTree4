@@ -2,7 +2,9 @@ package com.test.poemtree4.poem;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.sql.DataSource;
@@ -10,6 +12,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 public class PoemRepositoryImpl implements PoemRepository {
 
@@ -24,8 +28,15 @@ public class PoemRepositoryImpl implements PoemRepository {
     // AdminTable
 
     @Override
-    public void insertA(String tableName) {
-        jdbcTemplate.update("INSERT INTO ADMINTABLE(tablename) VALUES(?)", tableName);
+    public int insertA(String tableName) {
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+        jdbcInsert.withTableName("ADMINTABLE").usingGeneratedKeyColumns("TABLEID");
+
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("TABLENAME", tableName);
+        int key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(param)).intValue();
+        
+        return key;
     }
 
     @Override
@@ -74,13 +85,20 @@ public class PoemRepositoryImpl implements PoemRepository {
     @Override
     public void deleteContentW(String contentId) {
         jdbcTemplate.update("DELETE WORKINGTABLE WHERE CONTENTID = ?", contentId);
-    };
+    }
 
     @Override
     public List<PoemObject> findByIdW(int tableId) {
         List<PoemObject> result = jdbcTemplate.query("SELECT * FROM WORKINGTABLE WHERE TABLEID = ?", poemObjectRowMapper(), tableId);
         return result;
     }
+
+    @Override
+    public Optional<PoemObject> findContentByContentIdW(String contentId) {
+        List<PoemObject> result = jdbcTemplate.query("SELECT * FROM WORKINGTABLE WHERE CONTENTID = ?", poemObjectRowMapper(), contentId);
+        return result.stream().findAny();
+    }
+
 
     @Override
     public void updateAnyW(PoemObject newObject) {
@@ -145,10 +163,10 @@ public class PoemRepositoryImpl implements PoemRepository {
     }
 
     @Override
-    public void eraseF(int tableId, String createdDate) {
+    public void eraseF(int tableId, String date) {
         String genName = "table" + tableId;
         String sql = "DELETE " + genName + " WHERE DATE = ?";
-        jdbcTemplate.update(sql, createdDate);
+        jdbcTemplate.update(sql, date);
     }
 
     @Override
@@ -158,7 +176,7 @@ public class PoemRepositoryImpl implements PoemRepository {
         List<PoemObject> result = jdbcTemplate.query(sql, poemObjectRowMapper(),contentId);
         return result;
     }
-
+    
 
     
 }
