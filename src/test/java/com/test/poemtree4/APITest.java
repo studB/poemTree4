@@ -47,7 +47,7 @@ public class APITest {
         Assertions.assertThat(poemRepository).isNotNull();
     }
 
-
+/*
     @Autowired
     private MockMvc mockMvc;
 
@@ -179,5 +179,5 @@ public class APITest {
             .andExpect(mrm.status().isOk());
     }
 
-
+*/
 }

@@ -22,6 +22,7 @@ public class DBTest {
 
     PoemRepository pr = ac.getBean("poemRepository", PoemRepository.class);
 
+    /*
     @Test
     void admintableTest(){
         int initRowNum = pr.findAllA().size();
@@ -135,7 +136,7 @@ public class DBTest {
         pr.deleteTableF(1);
         pr.deleteFolderW(1);
     }
-
+*/
 
 
 }

@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import lombok.experimental.PackagePrivate;
 
-@Controller
+@RestController
 public class PoemController{
 
     private PoemRepository poemRepository;
@@ -25,10 +26,12 @@ public class PoemController{
         this.poemRepository = poemRepository;
     }
 
-    @RequestMapping(value = "/")
+    
+    @RequestMapping(value = "/api/call")
     public String mainRendering(){
-        return "note";
+        return "Hi, welcome to spring server";
     }
+    
 
     // Poem Logic
 
