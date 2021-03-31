@@ -5,7 +5,6 @@
                 <note-list></note-list>
             </section>
             <section class="edit" :class="mouseOn === 'right' ? 'edit-active' : ''" v-on:mouseenter="onRight()">
-                right
                 <editor></editor>
             </section>
       </div>
@@ -55,7 +54,8 @@ export default {
 }
 
 .note .list {
-    min-width: 200px;
+    width: 200px;
+    min-width: 100px;
     max-width: 400px;
     height: inherit;
     border: 1px solid green;
@@ -73,6 +73,10 @@ export default {
 
 .edit-active {
     box-shadow: -5px 0 8px -5px rgba(0,0,0,0.7);
+}
+
+.edit > div {
+    border: 1px solid red;
 }
 
 </style>
